@@ -1,0 +1,21 @@
+[default]
+# see at https://www.dynaconf.com/#on-env-vars
+CURRENT_ENV = "@jinja {{this.current_env | lower}}" # development or production
+HOME_DIR = "@jinja {{env.HOME}}"
+DIR_INPUT="Entrada"
+DIR_OUTPUT="Saida"
+URL_CHECK_PUBLIC_IP = "https://ifconfig.me"
+
+
+APP_NAME="API BASE! 🚀"
+APP_VERSAO="1.0.0"
+APP_DESCRIPTION="Backend BASE! 🇧🇷"
+
+
+# Change development or production on .env
+[development]
+DEBUG = true
+
+
+[production]
+DEBUG = false

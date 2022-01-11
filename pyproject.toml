@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = ["Thales Teodoro Ampere <thales@ampereconsultoria.com.br>"]
+
+[tool.poetry.dependencies]
+python = "^3.8,<3.10"
+fastapi = {extras = ["all"], version = "^0.70.0"}
+pydantic = {extras = ["email"], version = "^1.8.2"}
+dynaconf = "^3.1.7"
+loguru = "^0.5.3"
+bcrypt = "^3.2.0"
+pre-commit = "^2.15.0"
+motor = "^2.5.1"
+pymongo = "^3.12.1"
+geocoder = "^1.38.1"
+sh = "^1.14.2"
+sse-starlette = "^0.10.0"
+
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+black = {version = "^21.7b0", allow-prereleases = true}
+flake8 = "^3.9.2"
+pylint = "^2.9.3"
+autoflake = "^1.4"
+isort = "^5.9.2"
+mypy = "^0.910"
+pre-commit = "^2.13.0"
+autopep8 = "^1.5.7"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

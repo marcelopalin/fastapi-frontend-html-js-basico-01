@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Html Stático</title>
+   <!-- Bootstrap CSS -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+   <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body >
+  <!-- 2 - Mostra as opções de execução -> Chama 3o passo que é execução do método -->
+  <div class="mt-4">
+
+    <!-- Executa a rota do fastapi (veja em main.py) -->
+    <button type="button" class="btn btn-success" onclick="getEstacoesInmet()">Estações Inmet</button>
+    <button type="button" class="btn btn-warning" onclick="adicionaLinhaNaTabela()">Adicionar Linha na Tabela</button>
+    <button type="button" class="btn btn-warning" onclick="adicionaItemNaLista()">Adicionar Item na Lista</button>
+
+    <!-- Executa a rota do fastapi (veja em main.py) -->
+    <a href="/mostrar_mapas" class="btn btn-primary">Mostrar Mapas</a> <br>
+
+  </div>
+
+  <div class="mt-4">
+
+    <!-- Tabela -->
+    <table id="tabfuncionarios">
+      <thead>
+        <tr>
+          <th>My Cabeçalho da Tabela</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Linha Inicial</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Rodapé da Tabela</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <br>
+    <hr>
+    <h1>Lista Aqui</h1>
+    <ul></ul>
+
+  </div>
+
+  <script>
+
+    function adicionaLinhaNaTabela(){
+      console.log("Adicioando linha na tabela ao carregar a página!");
+
+      // MANIPULANDO O DOM = document com JAVASCRIPT
+      // Pegando o Corpo da tabela
+      let tbodyRef = document.getElementById('tabfuncionarios').getElementsByTagName('tbody')[0];
+
+      // Insere uma Nova linha no CORPO DA TABELA
+      let newRow = tbodyRef.insertRow();
+
+      // Inserindo uma Célula no final da linha
+      let newCell = newRow.insertCell();
+
+      // Adicione o seguinte texto na tabela
+      let newText = document.createTextNode('Thales esta é uma NOVO LINHA adicionada pelo JAVASCRIPT!');
+      newCell.appendChild(newText); // adiciona o texto na tabela!
+    }
+
+     async function getEstacoes() {
+        const response = await axios.get("https://apitempo.inmet.gov.br/estacoes/T")
+        return response.data
+     }
+
+    // Pede a lista de estacoes
+    // Pede para adicionar 1 a 1 os elementos na lista!
+    async function adicionaItemNaLista(){
+      estacoes = await getEstacoes()
+      adicionaItemNaListaDaPagina(estacoes)
+
+    }
+
+      const createLi = (estacao) => {
+        const li = document.createElement("li");
+        // add user details to `li`
+        li.textContent = `${estacao.DC_NOME}: ${estacao.CD_ESTACAO}`;
+        return li;
+      };
+
+      const adicionaItemNaListaDaPagina = (estacoes) => {
+        const ul = document.querySelector("ul");
+        estacoes.map((elem) => {
+          ul.appendChild(createLi(elem));
+        });
+      };
+
+    function getEstacoesInmet(){
+      // igual ao Axios = requests do python,
+      // requisição da url (veja no main.py a rota se existe)
+
+      fetch('/get_estacoes_inmet', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((thales) => {
+        return thales.json()
+      })
+      .then((data) => {
+        console.log('Sucesso!:', data);
+      })
+      //Then with the error genereted...
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    }
+
+  </script>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>
